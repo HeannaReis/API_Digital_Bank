@@ -2,6 +2,7 @@ package com.companye.DigitalBank.domain.modules.clientes.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,8 @@ public class Cliente {
     @Column(name = "id_cliente")
     private UUID id;
 
-    @Column(nullable = false)   
+    @Column(nullable = false)
+    @Valid
     private String nome;
     
     @Column(unique = true)

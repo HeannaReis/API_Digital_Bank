@@ -1,24 +1,25 @@
 package com.companye.DigitalBank.domain.modules.clientes.dto;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
+import com.companye.DigitalBank.domain.modules.clientes.entities.TipoCliente;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 
 
 public record ClienteUpdateDTO(
-
-        @NotEmpty(message = "Fill in the fields correctly.")
-        UUID id,
-        @NotEmpty(message = "Fill in the fields correctly.")
+        @NotEmpty(message = "CPF must not be empty")
         String cpf,
-        @NotEmpty(message = "Fill in the fields correctly.")
+
+        @NotBlank(message = "Name must not be blank")
         @Size(min = 3, max =50, message = "'${validatedValue}' This field must have between {min} and {max} characters.")
         String nome,
-        @NotEmpty(message = "Fill in the fields correctly.")
+
+        @NotNull(message = "Date of birth must not be null")
         LocalDate dataNascimento,
-        String tipoCliente
-) {
+        TipoCliente tipoCliente){
 
 }
+

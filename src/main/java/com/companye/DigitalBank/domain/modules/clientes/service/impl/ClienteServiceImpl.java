@@ -76,7 +76,7 @@ public class ClienteServiceImpl implements IClienteService {
         cliente.setCpf(data.cpf());
         cliente.setNome(data.nome());
         cliente.setDataNascimento(data.dataNascimento());
-        cliente.setTipoCliente(TipoCliente.valueOf(data.tipoCliente()));
+        cliente.setTipoCliente(TipoCliente.valueOf(String.valueOf(data.tipoCliente())));
 
         return clientesRepository.save(cliente);
     }

@@ -1,4 +1,4 @@
-package com.companye.DigitalBank.domain.modules;
+package com.companye.DigitalBank.domain.modules.endereco.entities;
 
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import jakarta.persistence.*;
