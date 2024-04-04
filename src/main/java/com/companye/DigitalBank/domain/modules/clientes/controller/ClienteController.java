@@ -27,7 +27,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente create(@Valid @RequestBody  ClienteDTO data) {
+    public Cliente create(@Valid @RequestBody ClienteDTO data) {
         System.out.println(data);
         return service.create(data);
     }

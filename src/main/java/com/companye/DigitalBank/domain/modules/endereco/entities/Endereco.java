@@ -1,6 +1,6 @@
 package com.companye.DigitalBank.domain.modules.endereco.entities;
 
-import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,15 +10,17 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Entity(name = "tb_endereco")
+@Entity(name = "endereco")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Endereco {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Column(nullable = false)
     private String logradouro;
 
     @Column(nullable = false)
-    private int numero;
+    private Integer numero;
 
     @Column(nullable = false)
     private String cep;
@@ -29,11 +31,10 @@ public class Endereco {
     private String bairro;
 
     @Column(nullable = false)
-    private String uf;
+    private String localidade;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_cliente")
-    private Cliente clientes;
+    @Column(nullable = false)
+    private String uf;
 
     @CreationTimestamp
     private LocalDateTime dataCriacao;

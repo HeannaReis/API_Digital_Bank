@@ -1,5 +1,13 @@
 package com.companye.DigitalBank.domain.modules.clientes.service.impl;
 
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.companye.DigitalBank.domain.modules.clientes.dto.ClienteDTO;
 import com.companye.DigitalBank.domain.modules.clientes.dto.ClienteUpdateDTO;
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
@@ -10,23 +18,15 @@ import com.companye.DigitalBank.domain.modules.clientes.service.ValidaCpfService
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.ClienteNotFoundException;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.CpfAlreadyExistsException;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.InvalidCpfException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Service
 public class ClienteServiceImpl implements IClienteService {
 
     private final IClienteRepository clientesRepository;
     private final ValidaCpfService validaCpfService;
-
-    public ClienteServiceImpl(IClienteRepository clientesRepository, ValidaCpfService validacaCpfService) {
-        this.clientesRepository = clientesRepository;
-        this.validaCpfService = validacaCpfService;
-    }
 
     @Override
     @Transactional
@@ -42,9 +42,13 @@ public class ClienteServiceImpl implements IClienteService {
         cliente.setNome(data.nome());
         cliente.setDataNascimento(data.dataNascimento());
         cliente.setTipoCliente(data.tipoCliente());
-        
-        return clientesRepository.save(cliente);
+
+        cliente = clientesRepository.save(cliente);
+
+        return cliente;
     }
+
+
 
     @Override
     @Transactional(readOnly = true)

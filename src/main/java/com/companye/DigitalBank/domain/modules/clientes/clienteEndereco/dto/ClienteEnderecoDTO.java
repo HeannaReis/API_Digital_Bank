@@ -1,15 +1,15 @@
-package com.companye.DigitalBank.domain.modules.clientes.dto;
-
-import java.time.LocalDate;
+package com.companye.DigitalBank.domain.modules.clientes.clienteEndereco.dto;
 
 import com.companye.DigitalBank.domain.modules.clientes.entities.TipoCliente;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record ClienteDTO(
+import java.time.LocalDate;
+
+public record ClienteEnderecoDTO (
+
         @NotEmpty(message = "CPF must not be empty")
         String cpf,
 
@@ -19,8 +19,12 @@ public record ClienteDTO(
 
         @NotNull(message = "Date of birth must not be null")
         LocalDate dataNascimento,
-
-        TipoCliente tipoCliente){
-
+        TipoCliente tipoCliente,
+        String cep,
+        String logradouro,
+        Integer numero,
+        String complemento,
+        String bairro,
+        String localidade,
+        String uf){
 }
-

@@ -1,4 +1,4 @@
-package com.companye.DigitalBank.domain.modules.clientes.repository;
+package com.companye.DigitalBank.domain.modules.endereco.repository;
 
 import com.companye.DigitalBank.domain.modules.endereco.entities.Endereco;
 import org.springframework.data.jpa.repository.JpaRepository;
