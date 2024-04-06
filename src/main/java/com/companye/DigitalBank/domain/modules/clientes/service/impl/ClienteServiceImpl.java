@@ -1,25 +1,23 @@
 package com.companye.DigitalBank.domain.modules.clientes.service.impl;
 
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.companye.DigitalBank.domain.modules.clientes.dto.ClienteDTO;
-import com.companye.DigitalBank.domain.modules.clientes.dto.ClienteUpdateDTO;
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import com.companye.DigitalBank.domain.modules.clientes.entities.TipoCliente;
+import com.companye.DigitalBank.domain.modules.clientes.entities.dto.ClienteDTO;
+import com.companye.DigitalBank.domain.modules.clientes.entities.dto.ClienteUpdateDTO;
 import com.companye.DigitalBank.domain.modules.clientes.repository.IClienteRepository;
 import com.companye.DigitalBank.domain.modules.clientes.service.IClienteService;
 import com.companye.DigitalBank.domain.modules.clientes.service.ValidaCpfService;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.ClienteNotFoundException;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.CpfAlreadyExistsException;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.InvalidCpfException;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -46,16 +44,6 @@ public class ClienteServiceImpl implements IClienteService {
         cliente = clientesRepository.save(cliente);
 
         return cliente;
-    }
-
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public Cliente get(UUID id) {
-        validarId(id);
-        return clientesRepository.findById(id)
-                .orElseThrow(() -> new ClienteNotFoundException(id));
     }
 
     @Override

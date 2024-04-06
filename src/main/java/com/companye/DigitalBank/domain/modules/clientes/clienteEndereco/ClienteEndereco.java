@@ -21,6 +21,6 @@ public class ClienteEndereco    {
     private Endereco endereco;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", referencedColumnName = "id_cliente")
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
 }

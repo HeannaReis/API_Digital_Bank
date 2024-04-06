@@ -1,7 +1,7 @@
 package com.companye.DigitalBank.domain.modules.clientes.controller;
 
-import com.companye.DigitalBank.domain.modules.clientes.dto.ClienteDTO;
-import com.companye.DigitalBank.domain.modules.clientes.dto.ClienteUpdateDTO;
+import com.companye.DigitalBank.domain.modules.clientes.entities.dto.ClienteDTO;
+import com.companye.DigitalBank.domain.modules.clientes.entities.dto.ClienteUpdateDTO;
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import com.companye.DigitalBank.domain.modules.clientes.service.IClienteService;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.ClienteNotFoundException;
