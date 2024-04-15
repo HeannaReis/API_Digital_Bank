@@ -32,22 +32,20 @@ public class ContaCorrenteServiceImplService implements IContaCorrenteService {
         contaCorrente.setTipoConta(TipoConta.CORRENTE);
         contaCorrente.setSaldo(data.saldo());
 
-        Cliente cliente = data.cliente();
+        UUID cliente = data.clienteId();
         if (cliente != null) {
-            Optional<Cliente> clienteOptional = clienteServiceImpl.findById(cliente.getId());
+            Optional<Cliente> clienteOptional = clienteServiceImpl.findById(data.clienteId());
             if (clienteOptional.isPresent()) {
-                // Se o cliente existe, associe-o à conta corrente
                 contaCorrente.setCliente(clienteOptional.get());
             } else {
-                // Se o cliente não existe, lance uma exceção ou lide com isso de acordo com sua lógica de negócio
-                throw new ClienteNotFoundException("Cliente not found with ID: " + cliente.getId());
+                throw new ClienteNotFoundException("Cliente not found with ID: " + data.clienteId());
             }
         } else {
-            // Se o cliente no DTO for nulo, lance uma exceção ou lide com isso de acordo com sua lógica de negócio
             throw new IllegalArgumentException("Cliente is null in the DTO");
         }
 
         contaCorrente = contaCorrenteRepository.save(contaCorrente);
+        System.out.println(contaCorrente);
         return contaCorrente;
     }
 

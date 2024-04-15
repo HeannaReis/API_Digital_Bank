@@ -16,7 +16,6 @@
 
         @Entity
         @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-        @DiscriminatorColumn(name = "tipoConta", discriminatorType = DiscriminatorType.STRING)
         @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         @Data
         public abstract class Conta implements IConta {
@@ -33,7 +32,7 @@
             private double saldo;
 
             @Enumerated(EnumType.STRING)
-            @Column(name = "tipoConta", insertable = false, updatable = false)
+            @Column(name = "tipoConta")
             private TipoConta tipoConta;
 
             @CreationTimestamp
@@ -47,9 +46,7 @@
 
             @ManyToOne(fetch = FetchType.LAZY)
             @JoinColumn(name = "cliente_id")
-            protected Cliente cliente; // Adicione esta linha para relacionar a conta com o cliente
-
-
+            protected Cliente cliente;
 
             @Override
             public void exibirSaldo() {

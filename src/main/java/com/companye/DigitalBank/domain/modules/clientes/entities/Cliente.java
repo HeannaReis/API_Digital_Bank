@@ -1,6 +1,5 @@
 package com.companye.DigitalBank.domain.modules.clientes.entities;
 
-import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -10,14 +9,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "cliente")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"contas"})
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,9 +36,6 @@ public class Cliente {
 
     @UpdateTimestamp
     private LocalDateTime dataAlteracao;
-
-    @OneToMany(mappedBy = "cliente")
-    private List<Conta> contas  = new ArrayList<>();
 
     public void setDataNascimento(LocalDate dataNascimento) {
         int idadeAtual = Period.between(dataNascimento, LocalDate.now()).getYears();
