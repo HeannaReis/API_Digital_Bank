@@ -12,6 +12,10 @@ RUN mvn clean install -DskipTests
 
 FROM openjdk:17-jdk-slim
 
+RUN apt-get update \
+    && apt-get install -y postgresql \
+    && apt-get clean
+
 WORKDIR /app
 
 EXPOSE 8081
