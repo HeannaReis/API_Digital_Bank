@@ -6,10 +6,9 @@ import com.companye.DigitalBank.domain.modules.contas.contacorrente.service.ICon
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/contas")
@@ -22,4 +21,9 @@ public class ContaCorrenteController {
     public Conta create(@Valid @RequestBody CriarContaCorrenteDTO data){
         return service.create(data);
     }
+
+    @GetMapping
+    public List<Conta> getAll(){
+        return service.getAll();
+    };
 }

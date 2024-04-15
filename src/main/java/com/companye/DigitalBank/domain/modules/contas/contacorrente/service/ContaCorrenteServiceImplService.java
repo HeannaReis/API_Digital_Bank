@@ -50,6 +50,7 @@ public class ContaCorrenteServiceImplService implements IContaCorrenteService {
     }
 
     @Override
+    @Transactional
     public Optional<Conta> findByNumeroConta(Long numeroConta) {
         return Optional.empty();
     }
@@ -60,8 +61,9 @@ public class ContaCorrenteServiceImplService implements IContaCorrenteService {
     }
 
     @Override
+    @Transactional
     public List<Conta> getAll() {
-        return null;
+        return contaCorrenteRepository.findAll();
     }
 
     @Override
