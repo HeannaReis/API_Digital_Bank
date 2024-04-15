@@ -1,7 +1,7 @@
 package com.companye.DigitalBank.domain.modules.contas.contacorrente.entities;
 
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
-import com.companye.DigitalBank.domain.modules.contas.contabase.Conta;
+import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 

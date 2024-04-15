@@ -1,6 +1,6 @@
-package com.companye.DigitalBank.domain.modules.cartao;
+package com.companye.DigitalBank.domain.modules.cartao.entities;
 
-import com.companye.DigitalBank.domain.modules.contas.contabase.Conta;
+import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import jakarta.persistence.*;
 import lombok.Data;
 

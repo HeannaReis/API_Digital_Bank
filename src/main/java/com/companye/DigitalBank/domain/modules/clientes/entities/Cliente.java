@@ -1,6 +1,6 @@
 package com.companye.DigitalBank.domain.modules.clientes.entities;
 
-import com.companye.DigitalBank.domain.modules.contas.contabase.Conta;
+import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;

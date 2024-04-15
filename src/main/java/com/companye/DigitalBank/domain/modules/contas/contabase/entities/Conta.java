@@ -1,7 +1,9 @@
-    package com.companye.DigitalBank.domain.modules.contas.contabase;
+    package com.companye.DigitalBank.domain.modules.contas.contabase.entities;
 
-    import com.companye.DigitalBank.domain.modules.cartao.Cartao;
+    import com.companye.DigitalBank.domain.modules.cartao.entities.Cartao;
     import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
+    import com.companye.DigitalBank.domain.modules.contas.contabase.IConta;
+    import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
     import jakarta.persistence.*;
     import lombok.Data;
     import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +17,7 @@
         @Entity
         @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
         @DiscriminatorColumn(name = "tipoConta", discriminatorType = DiscriminatorType.STRING)
+        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         @Data
         public abstract class Conta implements IConta {
 
@@ -25,7 +28,7 @@
             protected String agencia;
 
             @Column(unique = true)
-            private int numeroConta;
+            private Long numeroConta;
 
             private double saldo;
 
@@ -42,9 +45,10 @@
             @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
             private List<Cartao> cartoes = new ArrayList<>();
 
-            @ManyToOne()
+            @ManyToOne(fetch = FetchType.LAZY)
             @JoinColumn(name = "cliente_id")
-            protected Cliente cliente;
+            protected Cliente cliente; // Adicione esta linha para relacionar a conta com o cliente
+
 
 
             @Override
