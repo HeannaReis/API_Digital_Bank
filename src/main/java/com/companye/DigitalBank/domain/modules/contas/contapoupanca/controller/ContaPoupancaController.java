@@ -1,8 +1,8 @@
-package com.companye.DigitalBank.domain.modules.contas.contacorrente.controller;
+package com.companye.DigitalBank.domain.modules.contas.contapoupanca.controller;
 
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
-import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.dto.CriarContaCorrenteDTO;
-import com.companye.DigitalBank.domain.modules.contas.contacorrente.service.IContaCorrenteService;
+import com.companye.DigitalBank.domain.modules.contas.contapoupanca.entities.dto.CriarContaPoupancaDTO;
+import com.companye.DigitalBank.domain.modules.contas.contapoupanca.service.IContaPoupancaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/contas")
+@RequestMapping("/contas/contapoupanca")
 @Validated
-public class ContaCorrenteController {
+public class ContaPoupancaController {
     @Autowired
-    private IContaCorrenteService service;
-
+    private IContaPoupancaService service;
     @PostMapping
-    public Conta create(@Valid @RequestBody CriarContaCorrenteDTO data){
+    public Conta create(@Valid @RequestBody CriarContaPoupancaDTO data){
         return service.create(data);
     }
 

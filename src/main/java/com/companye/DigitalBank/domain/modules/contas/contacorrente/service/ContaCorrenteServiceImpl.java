@@ -5,7 +5,7 @@ import com.companye.DigitalBank.domain.modules.clientes.service.impl.ClienteServ
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.ClienteNotFoundException;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.TipoConta;
-import com.companye.DigitalBank.domain.modules.contas.contacorrente.dto.CriarContaCorrenteDTO;
+import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.dto.CriarContaCorrenteDTO;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.ContaCorrente;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.repository.IContaCorrenteRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class ContaCorrenteServiceImplService implements IContaCorrenteService {
+public class ContaCorrenteServiceImpl implements IContaCorrenteService {
 
     private final IContaCorrenteRepository contaCorrenteRepository;
     private final ClienteServiceImpl clienteServiceImpl;
@@ -61,9 +61,8 @@ public class ContaCorrenteServiceImplService implements IContaCorrenteService {
     }
 
     @Override
-    @Transactional
     public List<Conta> getAll() {
-        return contaCorrenteRepository.findAll();
+        return contaCorrenteRepository.findAllByTipoConta(TipoConta.CORRENTE);
     }
 
     @Override

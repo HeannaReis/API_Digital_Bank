@@ -2,11 +2,11 @@ package com.companye.DigitalBank.domain.modules.contas.contapoupanca.entities;
 
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
-import jakarta.persistence.DiscriminatorValue;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("CONTA_POUPANCA")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ContaPoupanca extends Conta {
     private static final double TAXA_RENDIMENTO_COMUM = 0.005; // 0.5% ao ano
     private static final double TAXA_RENDIMENTO_SUPER = 0.007; // 0.7% ao ano
