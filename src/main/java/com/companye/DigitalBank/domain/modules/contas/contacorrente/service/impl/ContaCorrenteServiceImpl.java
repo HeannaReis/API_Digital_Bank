@@ -1,4 +1,4 @@
-package com.companye.DigitalBank.domain.modules.contas.contacorrente.service;
+package com.companye.DigitalBank.domain.modules.contas.contacorrente.service.impl;
 
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.ClienteServiceImpl;
@@ -8,6 +8,7 @@ import com.companye.DigitalBank.domain.modules.contas.contabase.entities.TipoCon
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.dto.CriarContaCorrenteDTO;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.ContaCorrente;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.repository.IContaCorrenteRepository;
+import com.companye.DigitalBank.domain.modules.contas.contacorrente.service.IContaCorrenteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

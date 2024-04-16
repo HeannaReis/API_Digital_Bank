@@ -1,23 +1,27 @@
 package com.companye.DigitalBank.domain.modules.clientes.controller;
 
+import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import com.companye.DigitalBank.domain.modules.clientes.entities.dto.ClienteDTO;
 import com.companye.DigitalBank.domain.modules.clientes.entities.dto.ClienteUpdateDTO;
-import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import com.companye.DigitalBank.domain.modules.clientes.service.IClienteService;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.ClienteNotFoundException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/clientes")
 @Validated
 public class ClienteController {
+
     @Autowired
     private IClienteService service;
 
@@ -27,9 +31,9 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente create(@Valid @RequestBody ClienteDTO data) {
-        System.out.println(data);
-        return service.create(data);
+    public ResponseEntity<Cliente> create(@Valid @RequestBody ClienteDTO data) {
+        Cliente cliente = service.create(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
     }
 
     @PutMapping("/alterar/{id}")

@@ -40,7 +40,6 @@ public class ClienteServiceImpl implements IClienteService {
         cliente.setNome(data.nome());
         cliente.setDataNascimento(data.dataNascimento());
         cliente.setTipoCliente(data.tipoCliente());
-
         cliente = clientesRepository.save(cliente);
 
         return cliente;

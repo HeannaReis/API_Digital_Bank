@@ -43,6 +43,8 @@ public class Cliente {
         if (idadeAtual < 18) {
             throw new IllegalArgumentException("O cliente deve ter pelo menos 18 anos de idade.");
         }
+
+        this.dataNascimento = dataNascimento;
     }
 
 }
