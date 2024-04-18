@@ -2,12 +2,13 @@ package com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.dt
 
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.TipoConta;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public record CriarContaCorrenteDTO(
         String agencia,
         Long numeroConta,
-        double saldo,
+        BigDecimal saldo,
         TipoConta tipoConta,
         UUID clienteId
 ) {

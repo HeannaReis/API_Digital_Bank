@@ -2,12 +2,13 @@ package com.companye.DigitalBank.domain.modules.contas.contapoupanca.entities.dt
 
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.TipoConta;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public record CriarContaPoupancaDTO(
         String agencia,
         Long numeroConta,
-        double saldo,
+        BigDecimal saldo,
         TipoConta tipoConta,
         UUID clienteId
 ) {

@@ -21,9 +21,6 @@ public abstract class Cartao {
     @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
-    private String confirmarSenha;
-
     private boolean ativo;
 
     private double limite;
@@ -42,9 +39,5 @@ public abstract class Cartao {
     public boolean desativar() {
         this.ativo = false;
         return true;
-    }
-
-    public void ajustarLimite(double novoLimite) {
-        this.limite = novoLimite;
     }
 }

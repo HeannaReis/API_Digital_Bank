@@ -9,6 +9,7 @@
     import org.hibernate.annotations.CreationTimestamp;
     import org.hibernate.annotations.UpdateTimestamp;
 
+    import java.math.BigDecimal;
     import java.time.LocalDateTime;
     import java.util.ArrayList;
     import java.util.List;
@@ -29,7 +30,7 @@
             @Column(unique = true)
             private Long numeroConta;
 
-            private double saldo;
+            private BigDecimal saldo;
 
             @Enumerated(EnumType.STRING)
             @Column(name = "tipoConta")
@@ -54,10 +55,16 @@
             }
 
             @Override
-            public void transferirPix(double valor, IConta destino) {
-                if (this.saldo >= valor) {
-                    this.saldo -= valor;
-                    destino.setSaldo(destino.getSaldo() + valor);
+            public void transferirPix(BigDecimal valor, IConta destino) {
+                int comparacao = this.saldo.compareTo(valor);
+
+                if (comparacao >= 0) {
+                    this.saldo = this.saldo.subtract(valor);
+
+                    BigDecimal saldoDestino = destino.getSaldo();
+                    saldoDestino = saldoDestino.add(valor); // Adicionando o valor transferido ao saldo da conta destino
+                    destino.setSaldo(BigDecimal.valueOf(saldoDestino.doubleValue())); // Convertendo o saldo de volta para double e definindo na conta destino
+
                     System.out.println("Transferência realizada com sucesso!");
                 } else {
                     System.out.println("Saldo insuficiente para realizar a transferência.");

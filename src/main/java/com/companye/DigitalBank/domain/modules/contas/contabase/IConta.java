@@ -1,10 +1,13 @@
 package com.companye.DigitalBank.domain.modules.contas.contabase;
 
-public interface IConta {
-   double getSaldo();
+import java.math.BigDecimal;
 
-   void setSaldo(double saldo);
+public interface IConta {
+   public BigDecimal getSaldo();
+
+   void setSaldo(BigDecimal saldo);
 
     void exibirSaldo();
-    void transferirPix(double valor, IConta destino);
+
+    void transferirPix(BigDecimal valor, IConta destino);
 }

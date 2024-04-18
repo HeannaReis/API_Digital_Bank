@@ -1,6 +1,8 @@
 package com.companye.DigitalBank.domain.modules.contas.contapoupanca.service.impl;
 
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
+import com.companye.DigitalBank.domain.modules.clientes.entities.TipoCliente;
+import com.companye.DigitalBank.domain.modules.clientes.repository.IClienteRepository;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.ClienteServiceImpl;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.TipoConta;
@@ -13,7 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +28,7 @@ public class ContaPoupancaServiceImpl implements IContaPoupancaService {
 
     private final IContaPoupancaRepository contaPoupancaRepository;
     private final ClienteServiceImpl clienteServiceImpl;
+    private final IClienteRepository clienteRepository;
 
     @Override
     @Transactional
@@ -65,5 +71,31 @@ public class ContaPoupancaServiceImpl implements IContaPoupancaService {
     @Override
     public String delete(UUID id) {
         return null;
+    }
+
+    public void adicionarRendimentoEmTodasContas() {
+        List<Conta> contasPoupanca = contaPoupancaRepository.findAll();
+
+        Map<TipoCliente, BigDecimal> taxaRendimentoMap = Map.of(
+                TipoCliente.COMUM, ContaPoupanca.TAXA_RENDIMENTO_COMUM,
+                TipoCliente.SUPER, ContaPoupanca.TAXA_RENDIMENTO_SUPER,
+                TipoCliente.PREMIUM, ContaPoupanca.TAXA_RENDIMENTO_PREMIUM
+        );
+
+        for (Conta contaPoupanca : contasPoupanca) {
+            Cliente cliente = contaPoupanca.getCliente();
+            BigDecimal taxaRendimento = taxaRendimentoMap.get(cliente.getTipoCliente())
+                    .divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP);
+            BigDecimal saldo = new BigDecimal(String.valueOf(contaPoupanca.getSaldo()));
+
+            BigDecimal rendimento = saldo.multiply(taxaRendimento);
+            rendimento = rendimento.setScale(2, RoundingMode.HALF_UP);
+
+            BigDecimal novoSaldo = saldo.add(rendimento);
+            contaPoupanca.setSaldo(BigDecimal.valueOf(novoSaldo.doubleValue()));
+
+            contaPoupancaRepository.save(contaPoupanca);
+            System.out.println("Rendimento mensal de R$ " + rendimento + " creditado para a conta de " + cliente.getNome());
+        }
     }
 }

@@ -20,4 +20,6 @@ public interface IContaPoupancaService {
     Conta update(UUID id, CriarContaCorrenteDTO data);
 
     String delete (UUID id);
+
+    void adicionarRendimentoEmTodasContas();
 }
