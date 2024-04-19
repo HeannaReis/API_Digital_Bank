@@ -85,20 +85,19 @@ public class ContaPoupancaServiceImpl implements IContaPoupancaService {
                 TipoCliente.PREMIUM, ContaPoupanca.TAXA_RENDIMENTO_PREMIUM
         );
 
-        for (Conta contaPoupanca : contasPoupanca) {
+        contasPoupanca.forEach(contaPoupanca -> {
             Cliente cliente = contaPoupanca.getCliente();
             BigDecimal taxaRendimento = taxaRendimentoMap.get(cliente.getTipoCliente())
                     .divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP);
-            BigDecimal saldo = new BigDecimal(String.valueOf(contaPoupanca.getSaldo()));
+            BigDecimal saldo = contaPoupanca.getSaldo();
 
-            BigDecimal rendimento = saldo.multiply(taxaRendimento);
-            rendimento = rendimento.setScale(2, RoundingMode.HALF_UP);
-
+            BigDecimal rendimento = saldo.multiply(taxaRendimento).setScale(2, RoundingMode.HALF_UP);
             BigDecimal novoSaldo = saldo.add(rendimento);
-            contaPoupanca.setSaldo(BigDecimal.valueOf(novoSaldo.doubleValue()));
 
+            contaPoupanca.setSaldo(novoSaldo);
             contaPoupancaRepository.save(contaPoupanca);
+
             System.out.println("Rendimento mensal de R$ " + rendimento + " creditado para a conta de " + cliente.getNome());
-        }
+        });
     }
 }
