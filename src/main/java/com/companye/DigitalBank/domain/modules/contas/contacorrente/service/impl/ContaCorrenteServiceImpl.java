@@ -1,12 +1,13 @@
 package com.companye.DigitalBank.domain.modules.contas.contacorrente.service.impl;
 
 import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
+import com.companye.DigitalBank.domain.modules.clientes.entities.TipoCliente;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.ClienteServiceImpl;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.ClienteNotFoundException;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.TipoConta;
-import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.dto.CriarContaCorrenteDTO;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.ContaCorrente;
+import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.dto.CriarContaCorrenteDTO;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.repository.IContaCorrenteRepository;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.service.IContaCorrenteService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,17 +36,9 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService {
         contaCorrente.setTipoConta(TipoConta.CORRENTE);
         contaCorrente.setSaldo(data.saldo());
 
-        UUID cliente = data.clienteId();
-        if (cliente != null) {
-            Optional<Cliente> clienteOptional = clienteServiceImpl.findById(data.clienteId());
-            if (clienteOptional.isPresent()) {
-                contaCorrente.setCliente(clienteOptional.get());
-            } else {
-                throw new ClienteNotFoundException("Cliente not found with ID: " + data.clienteId());
-            }
-        } else {
-            throw new IllegalArgumentException("Cliente is null in the DTO");
-        }
+        Optional<Cliente> clienteOptional = clienteServiceImpl.findById(data.clienteId());
+        Cliente cliente = clienteOptional.orElseThrow(() -> new ClienteNotFoundException(data.clienteId()));
+        contaCorrente.setCliente(cliente);
 
         contaCorrente = contaCorrenteRepository.save(contaCorrente);
         System.out.println(contaCorrente);
@@ -79,26 +72,23 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService {
     }
 
 
-    public void descontarTaxaMensal(Cliente cliente) {
+    public void descontarTaxaMensalTodasContas() {
         List<Conta> contasCorrente = contaCorrenteRepository.findAll();
 
-        BigDecimal taxaManutencao = switch (cliente.getTipoCliente()) {
-            case COMUM -> ContaCorrente.TAXA_MANUTENCAO_COMUM.divide(BigDecimal.valueOf(12), RoundingMode.HALF_UP);
-            case SUPER -> ContaCorrente.TAXA_MANUTENCAO_SUPER.divide(BigDecimal.valueOf(12), RoundingMode.HALF_UP);
-            case PREMIUM -> ContaCorrente.TAXA_MANUTENCAO_PREMIUM.divide(BigDecimal.valueOf(12), RoundingMode.HALF_UP);
-        };
+        Map<TipoCliente, BigDecimal> taxaManutencaoMap = Map.of(
+                TipoCliente.COMUM, ContaCorrente.TAXA_MANUTENCAO_COMUM,
+                TipoCliente.SUPER, ContaCorrente.TAXA_MANUTENCAO_SUPER,
+                TipoCliente.PREMIUM, ContaCorrente.TAXA_MANUTENCAO_PREMIUM
+        );
 
-        for (Conta contaCorrente : contasCorrente) {
-            BigDecimal saldo = new BigDecimal(String.valueOf(contaCorrente.getSaldo()));
+        contasCorrente.forEach(conta -> {
+            BigDecimal taxaManutencao = taxaManutencaoMap.get(conta.getCliente().getTipoCliente());
 
-            if (saldo.compareTo(taxaManutencao) >= 0) {
-                saldo = saldo.subtract(taxaManutencao);
-                contaCorrente.setSaldo(BigDecimal.valueOf(saldo.doubleValue()));
-                contaCorrenteRepository.save(contaCorrente);
-                System.out.println("Taxa mensal de manutenção de R$ " + taxaManutencao + " descontada com sucesso da conta de " + cliente.getNome());
-            } else {
-                System.out.println("Saldo insuficiente para cobrar a taxa mensal de manutenção da conta de " + cliente.getNome());
-            }
-        }
+            conta.setSaldo(conta.getSaldo().subtract(taxaManutencao));
+            contaCorrenteRepository.save(conta);
+
+            System.out.println("Taxa mensal de manutenção de R$ " + taxaManutencao + " descontada com sucesso da conta de " + conta.getCliente().getNome());
+        });
     }
+
 }

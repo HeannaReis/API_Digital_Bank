@@ -4,6 +4,7 @@ import com.companye.DigitalBank.domain.modules.clientes.entities.Cliente;
 import com.companye.DigitalBank.domain.modules.clientes.entities.TipoCliente;
 import com.companye.DigitalBank.domain.modules.clientes.repository.IClienteRepository;
 import com.companye.DigitalBank.domain.modules.clientes.service.impl.ClienteServiceImpl;
+import com.companye.DigitalBank.domain.modules.clientes.service.impl.validation.ClienteNotFoundException;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.Conta;
 import com.companye.DigitalBank.domain.modules.contas.contabase.entities.TipoConta;
 import com.companye.DigitalBank.domain.modules.contas.contacorrente.entities.dto.CriarContaCorrenteDTO;
@@ -39,9 +40,11 @@ public class ContaPoupancaServiceImpl implements IContaPoupancaService {
         contaPoupanca.setNumeroConta(data.numeroConta());
         contaPoupanca.setTipoConta(TipoConta.POUPANCA);
         contaPoupanca.setSaldo(data.saldo());
-        UUID cliente = data.clienteId();
+
         Optional<Cliente> clienteOptional = clienteServiceImpl.findById(data.clienteId());
-        contaPoupanca.setCliente(clienteOptional.get());
+        Cliente cliente = clienteOptional.orElseThrow(() -> new ClienteNotFoundException(data.clienteId()));
+
+        contaPoupanca.setCliente(cliente);
         System.out.println(contaPoupanca);
         contaPoupanca = contaPoupancaRepository.save(contaPoupanca);
         System.out.println(contaPoupanca);
