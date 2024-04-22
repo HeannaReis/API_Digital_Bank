@@ -28,8 +28,8 @@ public class ContaPoupancaController {
     };
 
     @PostMapping("/rendimento/todas-contas")
-    public String adicionarRendimentoEmTodasContas() {
-        service.adicionarRendimentoEmTodasContas();
+    public String adicionarRendimentoMensalTodasContas() {
+        service.adicionarRendimentoMensalTodasContas();
         return "Rendimento adicionado em todas as contas com sucesso.";
     }
 }

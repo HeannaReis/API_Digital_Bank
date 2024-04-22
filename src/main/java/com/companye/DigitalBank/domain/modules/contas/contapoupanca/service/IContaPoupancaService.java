@@ -21,5 +21,5 @@ public interface IContaPoupancaService {
 
     String delete (UUID id);
 
-    void adicionarRendimentoEmTodasContas();
+    void adicionarRendimentoMensalTodasContas();
 }

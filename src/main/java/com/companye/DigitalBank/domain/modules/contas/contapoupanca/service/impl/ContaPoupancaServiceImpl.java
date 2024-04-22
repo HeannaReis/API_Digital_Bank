@@ -76,27 +76,22 @@ public class ContaPoupancaServiceImpl implements IContaPoupancaService {
         return null;
     }
 
-    public void adicionarRendimentoEmTodasContas() {
+    public void adicionarRendimentoMensalTodasContas() {
         List<Conta> contasPoupanca = contaPoupancaRepository.findAll();
-
         Map<TipoCliente, BigDecimal> taxaRendimentoMap = Map.of(
                 TipoCliente.COMUM, ContaPoupanca.TAXA_RENDIMENTO_COMUM,
                 TipoCliente.SUPER, ContaPoupanca.TAXA_RENDIMENTO_SUPER,
                 TipoCliente.PREMIUM, ContaPoupanca.TAXA_RENDIMENTO_PREMIUM
         );
-
         contasPoupanca.forEach(contaPoupanca -> {
             Cliente cliente = contaPoupanca.getCliente();
             BigDecimal taxaRendimento = taxaRendimentoMap.get(cliente.getTipoCliente())
                     .divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP);
             BigDecimal saldo = contaPoupanca.getSaldo();
-
             BigDecimal rendimento = saldo.multiply(taxaRendimento).setScale(2, RoundingMode.HALF_UP);
             BigDecimal novoSaldo = saldo.add(rendimento);
-
             contaPoupanca.setSaldo(novoSaldo);
             contaPoupancaRepository.save(contaPoupanca);
-
             System.out.println("Rendimento mensal de R$ " + rendimento + " creditado para a conta de " + cliente.getNome());
         });
     }
